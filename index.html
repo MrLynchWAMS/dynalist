@@ -1,170 +1,117 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f7fb">
-  <title>Markdown Image Link Generator</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f5f7fb;
-      --panel: #fff;
-      --ink: #172033;
-      --muted: #687386;
-      --line: #e1e6ef;
-      --accent: #5268e8;
-      --accent-hover: #4054ce;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; min-height: 100vh; display: grid; place-items: center;
-      padding: 24px;
-      background: radial-gradient(circle at top left, #e9edff, transparent 42%), var(--bg);
-      color: var(--ink);
-      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
-    }
-    main {
-      width: min(100%, 640px); padding: clamp(24px, 5vw, 42px);
-      background: var(--panel); border: 1px solid var(--line); border-radius: 22px;
-      box-shadow: 0 18px 55px rgba(30, 43, 75, .09);
-    }
-    .mark {
-      display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 22px;
-      border-radius: 14px; background: #eef0ff; color: var(--accent);
-      font-size: 24px; font-weight: 700;
-    }
-    h1 { margin: 0; font-size: clamp(1.7rem, 5vw, 2.15rem); letter-spacing: -.04em; }
-    .intro { margin: 9px 0 28px; color: var(--muted); }
-    .field { margin-bottom: 19px; }
-    label { display: block; margin-bottom: 8px; font-size: .9rem; font-weight: 650; }
-    input {
-      display: block; width: 100%; min-width: 0; padding: 14px 15px;
-      border: 1px solid var(--line); border-radius: 11px; outline: none;
-      font: inherit; color: var(--ink); background: #fff;
-    }
-    input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(82,104,232,.13); }
-    .actions { display: flex; gap: 10px; }
-    button {
-      border: 0; border-radius: 11px; padding: 12px 19px;
-      background: var(--accent); color: #fff; font: inherit;
-      font-weight: 650; cursor: pointer; transition: background .15s, transform .15s;
-    }
-    button:hover:not(:disabled) { background: var(--accent-hover); }
-    button:active:not(:disabled) { transform: translateY(1px); }
-    button:disabled { opacity: .45; cursor: not-allowed; }
-    .result { margin-top: 27px; }
-    .result-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 8px; }
-    .result-head label { margin: 0; }
-    .copy { padding: 8px 13px; font-size: .85rem; }
-    textarea {
-      display: block; width: 100%; min-height: 82px; resize: vertical; padding: 14px;
-      border: 1px solid var(--line); border-radius: 11px; background: #f8f9fc;
-      color: #263149; font: 14px/1.6 ui-monospace, SFMono-Regular, Consolas, monospace;
-    }
-    .hint, .status { margin: 9px 0 0; color: var(--muted); font-size: .84rem; }
-    .status { min-height: 1.3em; color: #26734d; }
-    code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
-    @media (max-width: 520px) {
-      .actions { flex-direction: column; }
-      .actions button { min-height: 48px; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f7fb">
+<title>Dynalist Image Markdown</title>
+<style>
+:root{color-scheme:light;--bg:#f5f7fb;--panel:#fff;--ink:#172033;--muted:#687386;--line:#e1e6ef;--accent:#5268e8;--dark:#4054ce;--soft:#eef0ff}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at top left,#e9edff,transparent 42%),var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{width:min(100%,700px);padding:clamp(22px,5vw,40px);background:var(--panel);border:1px solid var(--line);border-radius:22px;box-shadow:0 18px 55px rgba(30,43,75,.09)}
+.mark{display:grid;place-items:center;width:46px;height:46px;margin-bottom:18px;border-radius:14px;background:var(--soft);color:var(--accent);font-size:23px;font-weight:750}
+h1{margin:0;font-size:clamp(1.65rem,5vw,2.1rem);letter-spacing:-.04em}
+.intro{margin:8px 0 24px;color:var(--muted)}
+.method{padding:18px;border:1px solid var(--line);border-radius:15px;background:#fafbff;margin-bottom:16px}
+.method.primary{border-color:#cfd5ff;background:#f8f9ff}
+.method h2{margin:0 0 10px;font-size:1rem}
+.method p{margin:0 0 9px;color:var(--muted);font-size:.92rem}
+ol{margin:0;padding-left:22px}li{padding-left:4px;margin:7px 0}
+.formative-link{display:inline-flex;gap:7px;margin-top:12px;padding:9px 13px;border-radius:10px;background:var(--soft);color:var(--dark);text-decoration:none;font-weight:700}
+.field{margin-bottom:18px}
+label{display:block;margin-bottom:7px;font-size:.9rem;font-weight:680}
+.optional{color:var(--muted);font-weight:400}
+input{display:block;width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;outline:none;font:inherit;color:var(--ink);background:#fff}
+input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(82,104,232,.13)}
+button{border:0;border-radius:10px;padding:12px 17px;background:var(--accent);color:#fff;font:inherit;font-weight:680;cursor:pointer}
+button:hover:not(:disabled){background:var(--dark)}button:disabled{opacity:.45;cursor:not-allowed}
+.result{margin-top:25px}.result-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}.result-head label{margin:0}
+.copy{padding:8px 13px;font-size:.85rem}
+textarea{display:block;width:100%;min-height:82px;resize:vertical;padding:13px;border:1px solid var(--line);border-radius:10px;background:#f8f9fc;color:#263149;font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}
+.hint,.status,.note{margin:8px 0 0;color:var(--muted);font-size:.84rem}.status{min-height:1.3em;color:#26734d}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+@media(max-width:520px){.result-head{align-items:flex-start}.copy{flex-shrink:0}}
+</style>
 </head>
 <body>
-  <main>
-    <div class="mark" aria-hidden="true">!</div>
-    <h1>Markdown Image Link</h1>
-    <p class="intro">Enter an image URL and an optional title to generate Markdown.</p>
+<main>
+  <div class="mark" aria-hidden="true">!</div>
+  <h1>Dynalist Image Markdown</h1>
+  <p class="intro">Turn an image link into Markdown you can paste directly into Dynalist.</p>
 
-    <form id="converter">
-      <div class="field">
-        <label for="url">Image URL</label>
-        <input id="url" type="url" placeholder="https://example.com/image.jpg"
-               required autocomplete="url">
-      </div>
+  <section class="method primary">
+    <h2>Method 1: Use an image that already has a link</h2>
+    <p><strong>This is the easiest method.</strong> Use it whenever the image is already online.</p>
+    <ol>
+      <li>Find the image online.</li>
+      <li>Right-click the image (or two-finger tap on a trackpad).</li>
+      <li>Select <strong>Copy image address</strong> (not Copy link).</li>
+      <li>Paste the image address into the box below.</li>
+    </ol>
+  </section>
 
-      <div class="field">
-        <label for="title">Image title / alt text <span style="font-weight:400;color:#687386">(optional)</span></label>
-        <input id="title" type="text" placeholder="Describe the image">
-      </div>
+  <section class="method">
+    <h2>Method 2: Adding a screenshot or image without a link</h2>
+    <p>Use this method only if you have an image saved on your computer or copied to your clipboard and cannot copy an image address from a website.</p>
+    <ol>
+      <li>Open the class Formative image-link assignment.</li>
+      <li>Open a <strong>private comment</strong> to the teacher.</li>
+      <li>Paste your image into the private comment using <kbd>Ctrl</kbd> + <kbd>V</kbd>.</li>
+      <li>Right-click the image (or two-finger tap on a trackpad) and select <strong>Copy image address</strong>.</li>
+      <li>Return here and paste the copied address into the Image URL box below.</li>
+    </ol>
+    <a class="formative-link" href="https://goformative.com/formatives/6af32997b028b1006fc98dbd" target="_blank" rel="noopener noreferrer">Open Formative image-link assignment ↗</a>
+  </section>
 
-      <div class="actions">
-        <button type="submit">Generate Markdown</button>
-      </div>
-    </form>
+  <form id="converter">
+    <div class="field">
+      <label for="url">Image URL</label>
+      <input id="url" type="url" placeholder="Paste the copied image address here" required autocomplete="url">
+    </div>
+    <div class="field">
+      <label for="title">Image title <span class="optional">(optional)</span></label>
+      <input id="title" type="text" placeholder="Example: Model of an atom">
+    </div>
+    <button type="submit">Generate Markdown</button>
+  </form>
 
-    <section class="result" aria-live="polite">
-      <div class="result-head">
-        <label for="markdown">Markdown output</label>
-        <button class="copy" id="copy" type="button" disabled>Copy</button>
-      </div>
-      <textarea id="markdown" readonly placeholder="Your Markdown will appear here..."
-                spellcheck="false"></textarea>
-      <p class="hint">Format: <code>![Image title](image-url)</code></p>
-      <p class="status" id="status" role="status"></p>
-    </section>
-  </main>
-
-  <script>
-    "use strict";
-
-    const form = document.getElementById("converter");
-    const urlInput = document.getElementById("url");
-    const titleInput = document.getElementById("title");
-    const output = document.getElementById("markdown");
-    const copyButton = document.getElementById("copy");
-    const status = document.getElementById("status");
-
-    function escapeMarkdownAltText(value) {
-      return value
-        .replace(/\\/g, "\\\\")
-        .replace(/\[/g, "\\[")
-        .replace(/\]/g, "\\]");
-    }
-
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      try {
-        const parsedUrl = new URL(urlInput.value.trim());
-        if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
-          throw new Error("Invalid protocol");
-        }
-
-        const title = escapeMarkdownAltText(titleInput.value.trim());
-        output.value = `![${title}](${parsedUrl.href})`;
-        copyButton.disabled = false;
-        status.textContent = "Markdown generated.";
-      } catch {
-        output.value = "";
-        copyButton.disabled = true;
-        status.textContent = "Enter a valid http:// or https:// image URL.";
-      }
-    });
-
-    copyButton.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(output.value);
-        status.textContent = "Copied to clipboard.";
-      } catch {
-        output.focus();
-        output.select();
-        status.textContent = "Select the text above and copy it.";
-      }
-    });
-
-    // Update the output if the title changes after a URL has been generated.
-    titleInput.addEventListener("input", () => {
-      if (!output.value) return;
-      try {
-        const parsedUrl = new URL(urlInput.value.trim());
-        const title = escapeMarkdownAltText(titleInput.value.trim());
-        output.value = `![${title}](${parsedUrl.href})`;
-      } catch {
-        // Leave the current output unchanged if the URL is invalid.
-      }
-    });
-  </script>
+  <section class="result" aria-live="polite">
+    <div class="result-head">
+      <label for="markdown">Markdown to paste into Dynalist</label>
+      <button class="copy" id="copy" type="button" disabled>Copy Markdown</button>
+    </div>
+    <textarea id="markdown" readonly placeholder="Your Markdown will appear here..." spellcheck="false"></textarea>
+    <p class="hint">Example: <code>![Model of an atom](image-url)</code></p>
+    <p class="status" id="status" role="status"></p>
+    <p class="note">Important: Choose <strong>Copy image address</strong>, not the regular webpage link.</p>
+  </section>
+</main>
+<script>
+"use strict";
+const form=document.getElementById("converter");
+const urlInput=document.getElementById("url");
+const titleInput=document.getElementById("title");
+const output=document.getElementById("markdown");
+const copyButton=document.getElementById("copy");
+const status=document.getElementById("status");
+function escapeAlt(value){return value.replace(/\\\\/g,"\\\\\\\\").replace(/\\[/g,"\\\\[").replace(/\\]/g,"\\\\]");}
+function makeMarkdown(){
+  const parsed=new URL(urlInput.value.trim());
+  if(parsed.protocol!=="http:"&&parsed.protocol!=="https:")throw new Error("Invalid protocol");
+  output.value=`![${escapeAlt(titleInput.value.trim())}](${parsed.href})`;
+  copyButton.disabled=false;
+  status.textContent="Markdown generated. Copy it and paste it into Dynalist.";
+}
+form.addEventListener("submit",event=>{
+  event.preventDefault();
+  try{makeMarkdown();}catch{output.value="";copyButton.disabled=true;status.textContent="Please paste a valid image address beginning with http:// or https://.";}
+});
+titleInput.addEventListener("input",()=>{if(output.value){try{makeMarkdown();}catch{}}});
+copyButton.addEventListener("click",async()=>{
+  try{await navigator.clipboard.writeText(output.value);status.textContent="Copied! Paste the Markdown into Dynalist.";}
+  catch{output.focus();output.select();status.textContent="Select the text above and copy it.";}
+});
+</script>
 </body>
 </html>
